@@ -2,9 +2,12 @@
 
 #ifdef HAKCTEL_FIRMWARE
 
+// main.h must precede AudioThread.h: AudioThread.h includes main.h, whose
+// "extern AudioThread *audioThread;" needs the class to already be defined.
+#include "main.h"
+
 #include "AudioThread.h"
 #include "graphics/TFTColorRegions.h"
-#include "main.h"
 #include <SD.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -17,6 +20,8 @@ namespace
 
 constexpr size_t kThemeFileLimit = 8192;
 constexpr size_t kThemeIdLimit = 31;
+// Out-of-box theme, used when the card carries no /hakctel/active-theme.txt.
+constexpr const char *kDefaultThemeId = "pagewriter-2000x";
 constexpr size_t kRtttlLimit = 230;
 
 graphics::TFTThemeDef runtimeTheme = {};
@@ -204,16 +209,21 @@ bool parseTheme(File &file)
 
 bool loadTheme()
 {
+    String id;
     File selected = SD.open("/hakctel/active-theme.txt", FILE_READ);
-    if (!selected)
-        return false;
-    if (selected.size() > kThemeIdLimit + 2) {
+    if (selected) {
+        if (selected.size() > kThemeIdLimit + 2) {
+            selected.close();
+            return false;
+        }
+        id = selected.readStringUntil('\n');
         selected.close();
-        return false;
+        id.trim();
     }
-    String id = selected.readStringUntil('\n');
-    selected.close();
-    id.trim();
+    if (id.isEmpty()) {
+        id = kDefaultThemeId;
+        LOG_INFO("hakcTEL: no active-theme.txt, defaulting to %s", kDefaultThemeId);
+    }
     if (!safeThemeId(id)) {
         LOG_WARN("hakcTEL: rejected unsafe theme id");
         return false;

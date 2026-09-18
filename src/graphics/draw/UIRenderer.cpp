@@ -1771,12 +1771,29 @@ void UIRenderer::drawIconScreen(const char *upperMsg, OLEDDisplay *display, OLED
 void UIRenderer::drawBootIconScreen(const char *upperMsg, OLEDDisplay *display, OLEDDisplayUiState *state, int16_t x, int16_t y)
 {
 #if GRAPHICS_TFT_COLORING_ENABLED
+#ifdef HAKCTEL_FIRMWARE
+    // Every built-in TFT theme (including hakcTEL's via HakcTelTheme.cpp's applyPalette())
+    // already sets its own BootSplash role in TFTColorRegions.cpp -- but it was ignored here:
+    // the hardcoded green below always overrode it, so the boot splash looked identical
+    // regardless of the active theme. Read the theme's actual BootSplash colors instead.
+    const TFTThemeRoleColor &bootRole = getActiveTheme().roles[static_cast<size_t>(TFTColorRole::BootSplash)];
+    setAndRegisterTFTColorRole(TFTColorRole::BootSplash, bootRole.onColor, bootRole.offColor, x, y, SCREEN_WIDTH, SCREEN_HEIGHT);
+#else
     // Meshtastic brand green background with black foreground text/icon on TFT startup screen.
     static constexpr uint16_t kMeshtasticGreen = TFTPalette::rgb565(103, 234, 145);
     setAndRegisterTFTColorRole(TFTColorRole::BootSplash, TFTPalette::Black, kMeshtasticGreen, x, y, SCREEN_WIDTH, SCREEN_HEIGHT);
+#endif
     gBootSplashBoldPass = true;
 #endif
+#if defined(HAKCTEL_FIRMWARE) && defined(USERPREFS_OEM_TEXT)
+    // hakcTEL branding for the whole boot duration, not just the second half. This is the
+    // same drawOEMIconScreen() the USERPREFS_OEM_TEXT-gated mid-boot frame swap in Screen.cpp
+    // already calls, so that swap now just redraws identical pixels -- harmless, and left
+    // alone rather than touching Screen.cpp's boot sequencing for a purely cosmetic no-op.
+    drawOEMIconScreen(upperMsg, display, state, x, y);
+#else
     drawIconScreen(upperMsg, display, state, x, y);
+#endif
 #if GRAPHICS_TFT_COLORING_ENABLED
     gBootSplashBoldPass = false;
 #endif

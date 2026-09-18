@@ -1,5 +1,8 @@
 # hakcTEL
 
+<img width="498" height="241" alt="Screenshot 2026-09-18 at 10 28 51 AM" src="https://github.com/user-attachments/assets/11a1d92b-7a29-44e6-8af3-07c05944be43" />
+
+
 Retro pager firmware for the LILYGO T-LoRa Pager, built on Meshtastic.
 
 hakcTEL keeps Meshtastic messaging, LoRa, GPS, Bluetooth, Wi-Fi, the physical keyboard, rotary input, haptics, audio, NFC hardware access, and microSD support. It adds a data-only theme format, matching RTTTL sound packs, nostalgic pager and PDA skins, a passive tools catalog, release automation, and a browser flasher for `hakctel.hakc.ai`.

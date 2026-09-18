@@ -1,1 +1,7 @@
-platformio>=6.1,<7
+# PlatformIO core 6.2 requires tool-scons 4.41101.0, but the pinned pioarduino
+# espressif32 platform requires package-version 4.40801.0 (SCons 4.8.1). Both install into
+# the same unversioned packages/tool-scons directory, so the platform's _check_tool_version
+# sees a mismatch, deletes the package and recurses until it is gone -- the build then dies
+# with "ModuleNotFoundError: No module named 'SCons.Tool.FortranCommon'".
+# Core 6.1.x requires ~4.40801.0, which matches the platform. Keep them aligned.
+platformio>=6.1,<6.2

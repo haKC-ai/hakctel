@@ -13,6 +13,12 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # The espressif32 platform builds its own penv and installs PlatformIO into it. If that
+    # core is 6.2 it requests tool-scons 4.41101.0, overwriting the 4.40801.0 the platform
+    # validates against, and the package is deleted mid-build. Constrain every resolver.
+    env:
+      PIP_CONSTRAINT: ${{ github.workspace }}/constraints.txt
+      UV_CONSTRAINT: ${{ github.workspace }}/constraints.txt
     steps:
       - uses: actions/checkout@v4
         with:

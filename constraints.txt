@@ -1,0 +1,6 @@
+# Applied via PIP_CONSTRAINT/UV_CONSTRAINT so every install in the build -- including the
+# one the espressif32 platform performs inside its own penv -- resolves the same PlatformIO
+# core. A 6.2 core there requests tool-scons 4.41101.0 and overwrites the 4.40801.0 the
+# platform validates against, which deletes the package mid-build and breaks linking with
+# "ModuleNotFoundError: No module named 'SCons.Tool.FortranCommon'".
+platformio<6.2

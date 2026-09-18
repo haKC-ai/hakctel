@@ -5,6 +5,7 @@
 #include "HakcTelDesktop.h"
 #include "HakcTelTheme.h"
 
+#include "NodeStatus.h"                  // extern meshtastic::NodeStatus *nodeStatus
 #include "gps/RTC.h"                     // getTime()
 #include "graphics/Screen.h"             // isShowingModuleFrame()
 #include "graphics/SharedUIDisplay.h"    // extern bool hasUnreadMessage
@@ -20,9 +21,7 @@ namespace
 {
 
 // Label + a shape id, not a bitmap: see HakcTelDesktop.h for why these are drawn as vector
-// glyphs (drawRect/drawLine/drawCircle) instead of hand-authored XBM art. Order and count
-// (5x2) match the PageWriter 2000X spec: mail, compose, delete, alerts, tasks / book, message
-// log, sounds, clock, more.
+// glyphs (drawRect/drawLine/drawCircle) instead of hand-authored XBM art.
 enum class Glyph : uint8_t { Mail, Compose, Delete, Warning, Check, Book, List, Note, Clock, More };
 
 struct Cell {
@@ -122,60 +121,68 @@ bool HakcTelDesktopModule::wantUIFrame()
 
 void HakcTelDesktopModule::drawFrame(OLEDDisplay *display, OLEDDisplayUiState *state, int16_t x, int16_t y)
 {
+    // Layout modeled on the real Motorola PageWriter 2000X home screen (the pager this theme
+    // is named after): a "menu wheel" -- a vertically SCROLLING list of icon+label rows, the
+    // highlighted one a solid inverted bar -- not a fixed icon grid. Date/time is the dominant
+    // header element; status is a text line at the bottom, not a boxed HUD.
     const int16_t w = display->getWidth();
     const int16_t h = display->getHeight();
-    constexpr int16_t headerH = 22;
-    constexpr int16_t footerH = 18;
+    constexpr int16_t headerH = 20;
+    constexpr int16_t footerH = 16;
+    constexpr uint8_t kVisibleRows = 5;
     const int16_t bodyTop = y + headerH;
     const int16_t bodyH = h - headerH - footerH;
-    const int16_t cellW = w / HakcTelDesktopModule::kCols;
-    const int16_t cellH = bodyH / HakcTelDesktopModule::kRows;
+    const int16_t rowH = bodyH / kVisibleRows;
 
     display->setColor(WHITE);
 
-    // --- Header: title box + clock box, matching the segmented-box look of the spec. ---
-    display->drawRect(x, y, w, headerH);
-    const int16_t clockBoxW = 70;
-    display->drawVerticalLine(x + w - clockBoxW, y, headerH);
-    display->drawString(x + 6, y + 4, "hakcTEL DESKTOP");
-
+    // --- Header: brand tag left, date/time right (the real device's most prominent field). ---
+    display->drawString(x + 4, y + 2, "hakcTEL");
     const uint32_t secs = getTime(true);
     const uint32_t hour24 = (secs / 3600) % 24;
     const uint32_t minute = (secs / 60) % 60;
     const uint32_t hour12 = (hour24 % 12 == 0) ? 12 : (hour24 % 12);
-    char clockBuf[12];
+    char clockBuf[16];
     snprintf(clockBuf, sizeof(clockBuf), "%2u:%02u %s", hour12, minute, hour24 < 12 ? "AM" : "PM");
-    display->drawString(x + w - clockBoxW + 6, y + 4, clockBuf);
+    display->drawString(x + w - 70, y + 2, clockBuf);
+    display->drawHorizontalLine(x, y + headerH - 1, w);
 
-    // --- Body: 5x2 icon grid, selected cell drawn inverted (solid box, punched-out glyph). ---
-    for (uint8_t i = 0; i < HakcTelDesktopModule::kCellCount; i++) {
-        const uint8_t row = i / HakcTelDesktopModule::kCols;
-        const uint8_t col = i % HakcTelDesktopModule::kCols;
-        const int16_t cx = x + col * cellW;
-        const int16_t cy = bodyTop + row * cellH;
+    // --- Body: a scrolled window of kVisibleRows, centered on the cursor -- the real
+    //     device's "menu wheel", which spins to bring the highlighted item into view rather
+    //     than showing every item at once. ---
+    uint8_t firstVisible = 0;
+    if (cursor > kVisibleRows / 2)
+        firstVisible = cursor - kVisibleRows / 2;
+    if (firstVisible > kCellCount - kVisibleRows)
+        firstVisible = kCellCount - kVisibleRows;
+
+    for (uint8_t row = 0; row < kVisibleRows; row++) {
+        const uint8_t i = firstVisible + row;
+        const int16_t ry = bodyTop + row * rowH;
         const bool selected = (i == cursor);
 
         if (selected) {
             display->setColor(WHITE);
-            display->fillRect(cx + 2, cy + 2, cellW - 4, cellH - 4);
+            display->fillRect(x, ry, w, rowH);
             display->setColor(BLACK);
         } else {
             display->setColor(WHITE);
-            display->drawRect(cx + 2, cy + 2, cellW - 4, cellH - 4);
         }
-        drawGlyph(display, kCells[i].glyph, cx, cy, cellW, cellH - 10);
-        if (selected)
-            display->setColor(WHITE);
+        drawGlyph(display, kCells[i].glyph, x + 4, ry + 2, rowH - 4, rowH - 4);
+        display->drawString(x + rowH + 4, ry + (rowH - 16) / 2, kCells[i].label);
     }
 
-    // --- Footer: real unread flag; no outbox queue exists in this tree, say so plainly
-    //     rather than print a fabricated zero. ---
+    // --- Footer: real state only. hasUnreadMessage is the same bool the stock UI reads;
+    //     nodeStatus->getNumOnline() is the same accessor UIRenderer::drawNodes() uses. No
+    //     outbox queue exists in this tree, so nothing claims one. ---
     display->setColor(WHITE);
     display->drawHorizontalLine(x, y + h - footerH, w);
-    char footerBuf[40];
+    char footerBuf[32];
+    const int onlineCount = (nodeStatus && nodeStatus->getNumOnline() > 0) ? nodeStatus->getNumOnline() : 0;
     snprintf(footerBuf, sizeof(footerBuf), "Unread: %d", graphics::hasUnreadMessage ? 1 : 0);
-    display->drawString(x + 4, y + h - footerH + 2, footerBuf);
-    display->drawString(x + w - 90, y + h - footerH + 2, "Outbox: --");
+    display->drawString(x + 4, y + h - footerH + 1, footerBuf);
+    snprintf(footerBuf, sizeof(footerBuf), "%d online", onlineCount);
+    display->drawString(x + w - 70, y + h - footerH + 1, footerBuf);
 }
 
 int HakcTelDesktopModule::handleInputEvent(const InputEvent *event)
@@ -185,16 +192,10 @@ int HakcTelDesktopModule::handleInputEvent(const InputEvent *event)
 
     switch (event->inputEvent) {
     case INPUT_BROKER_UP:
-        cursor = (cursor + kCellCount - 1) % kCellCount; // rotary CCW
+        cursor = (cursor + kCellCount - 1) % kCellCount; // NavDisc up / rotary CCW
         break;
     case INPUT_BROKER_DOWN:
-        cursor = (cursor + 1) % kCellCount; // rotary CW
-        break;
-    case INPUT_BROKER_LEFT:
-        cursor = (cursor + kCellCount - kCols) % kCellCount; // keyboard: row up
-        break;
-    case INPUT_BROKER_RIGHT:
-        cursor = (cursor + kCols) % kCellCount; // keyboard: row down
+        cursor = (cursor + 1) % kCellCount; // NavDisc down / rotary CW
         break;
     case INPUT_BROKER_SELECT:
         // Cell activation (open the mapped screen) is deliberately not wired yet -- this

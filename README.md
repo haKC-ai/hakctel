@@ -56,6 +56,12 @@ source .venv-hakctel/bin/activate
 
 The build output is copied to `dist/`. For a browser install, deploy `site/` to Cloudflare Pages and publish the generated release artifacts described in [`docs/web-installer.md`](docs/web-installer.md).
 
+Neither `scripts/flash.sh` nor the browser installer touches the microSD-adjacent `spiffs` filesystem partition (node database, message history, drafts) — they write only the bootloader, partition table, and app image. Switching firmware families or clearing out stale state needs a real erase:
+
+```bash
+./scripts/erase.sh /dev/ttyACM0
+```
+
 Prepare the microSD card before flashing, so the Pager boots into a theme rather than the stock palette:
 
 ```bash

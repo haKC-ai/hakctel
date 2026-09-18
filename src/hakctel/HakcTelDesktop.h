@@ -10,8 +10,9 @@ namespace hakctel
 {
 
 /**
- * The PageWriter 2000X "timeport-grid" home screen: a 5x2 application grid in a segmented
- * status-bar shell, styled after a late-1990s two-way pager desktop.
+ * The PageWriter 2000X "timeport-grid" home screen: a scrolling icon+label list with a
+ * solid inverted highlight bar, modeled on the real Motorola PageWriter 2000X "menu wheel"
+ * home screen (see its 1999 user's guide, "The Home Screen") rather than an icon grid.
  *
  * Registered as a MeshModule UI frame (not a new display stack -- see docs/architecture.md
  * for why) so it slots into the existing Screen.cpp frame carousel for free: the header/nav
@@ -22,9 +23,7 @@ namespace hakctel
 class HakcTelDesktopModule : public MeshModule, public Observable<const UIFrameEvent *>
 {
   public:
-    static constexpr uint8_t kCols = 5;
-    static constexpr uint8_t kRows = 2;
-    static constexpr uint8_t kCellCount = kCols * kRows;
+    static constexpr uint8_t kCellCount = 10;
 
     HakcTelDesktopModule();
 
@@ -42,7 +41,7 @@ class HakcTelDesktopModule : public MeshModule, public Observable<const UIFrameE
     CallbackObserver<HakcTelDesktopModule, const InputEvent *> inputObserver =
         CallbackObserver<HakcTelDesktopModule, const InputEvent *>(this, &HakcTelDesktopModule::handleInputEvent);
 
-    uint8_t cursor = 0; // 0..9, row = cursor / kCols, col = cursor % kCols
+    uint8_t cursor = 0; // 0..9, index into the item list
 };
 
 extern HakcTelDesktopModule *hakcTelDesktopModule;

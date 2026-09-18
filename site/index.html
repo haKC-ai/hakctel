@@ -164,6 +164,11 @@
               <div style="font:bold 26px Impact,'Arial Black',sans-serif;color:#800080;">BROWSE * INSTALL * ACTIVATE</div>
               <div style="font-size:16px;color:#000;margin:6px 0 12px;line-height:1.4;text-wrap:pretty;">Connect a mounted microSD card to manage themes in place, or grab any pack for a manual install. Theme files are DATA ONLY and cannot load native code. <span style="animation:blink 1s steps(1) infinite;color:#cc0000;font-weight:bold;">CLICK A ROW!</span></div>
 
+              <div style="display:flex;align-items:center;gap:8px;margin:0 0 10px;">
+                <span style="font:bold 12px 'Courier New',monospace;color:#000080;">SEARCH CATALOG:</span>
+                <input type="text" value="{{ themeQuery }}" onChange="{{ onThemeSearch }}" placeholder="PageWriter, Palm, terminal..." style="flex:1 1 200px;min-width:140px;padding:6px;border:0;background:#fff;font-size:13px;box-shadow:inset 1px 1px #0a0a0a,inset -1px -1px #fff,inset 2px 2px #808080;" />
+                <span style="font:bold 12px 'Courier New',monospace;color:#800000;">{{ themeCount }}</span>
+              </div>
               <div style="display:flex;flex-wrap:wrap;gap:14px;">
                 <div style="flex:1 1 300px;min-width:0;max-height:330px;overflow:auto;background:#fff;box-shadow:inset 1px 1px #0a0a0a,inset -1px -1px #fff,inset 2px 2px #808080;">
                   <table style="border-collapse:collapse;width:100%;font:13px 'Courier New',monospace;color:#000;">
@@ -175,18 +180,10 @@
                       </tr>
                     </thead>
                     <tbody onClick="{{ onPick }}" style="cursor:pointer;">
-                      <tr data-theme="pagewriter-2000x" style="background:#e8ffe8;" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">PageWriter 2000X</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">90s two-way pager, green LCD</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="#themes">.zip</a></td></tr>
-                      <tr data-theme="advisor-gold" style="background:#fff;" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">Advisor Gold</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">amber LCD, blunt status blocks</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="#themes">.zip</a></td></tr>
-                      <tr data-theme="matrix-green" style="background:#e8ffe8;" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">Matrix Green</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">green phosphor, dense pixels</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="#themes">.zip</a></td></tr>
-                      <tr data-theme="blackberry-9900" style="background:#fff;" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">BlackBerry 9900</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">black chrome, blue select bars</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="#themes">.zip</a></td></tr>
-                      <tr data-theme="hp-jornada" style="background:#e8ffe8;" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">HP Jornada</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">Pocket PC navy and silver</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="#themes">.zip</a></td></tr>
-                      <tr data-theme="palm-pilot" style="background:#fff;" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">Palm Pilot</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">gray-green mono organizer</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="#themes">.zip</a></td></tr>
-                      <tr data-theme="palm-treo" style="background:#e8ffe8;" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">Palm Treo</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">warm gray, red accent</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="#themes">.zip</a></td></tr>
-                      <tr data-theme="nextel-direct-connect" style="background:#fff;" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">Direct Connect</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">black + yellow PTT channel</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="#themes">.zip</a></td></tr>
-                      <tr data-theme="amber-terminal" style="background:#e8ffe8;" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">Amber Terminal</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">amber phosphor, hard borders</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="#themes">.zip</a></td></tr>
-                      <tr data-theme="tokyo-night" style="background:#fff;" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">Tokyo Night</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">indigo, cyan, violet</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="#themes">.zip</a></td></tr>
-                      <tr data-theme="hakctel-cyberdeck" style="background:#e8ffe8;" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">hakcTEL Cyberdeck</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">plum, cyan, near-black</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="#themes">.zip</a></td></tr>
-                    </tbody>
+                      <sc-for list="{{ themeRows }}" as="t" hint-placeholder-count="11">
+                        <tr data-theme="{{ t.id }}" style="background:{{ t.stripe }};" style-hover="background:#ffff99;"><td style="padding:5px 8px;border:1px solid #c0c0c0;font-weight:bold;">{{ t.name }}</td><td style="padding:5px 8px;border:1px solid #c0c0c0;">{{ t.vibe }}</td><td style="padding:5px 8px;border:1px solid #c0c0c0;text-align:center;"><a href="{{ t.href }}" download="{{ t.dl }}">.ini</a></td></tr>
+                      </sc-for>
+                      </tbody>
                   </table>
                 </div>
 
@@ -427,6 +424,20 @@ const THEMES = {
   'hakctel-cyberdeck': { name: 'HAKCTEL DECK', bg: '#0b0d0f', ink: '#7fe7ff', accent: '#c07ad0' }
 };
 
+const THEME_ROWS = [
+  { id: "pagewriter-2000x", name: "PageWriter 2000X", vibe: "90s two-way pager, green LCD" },
+  { id: "advisor-gold", name: "Advisor Gold", vibe: "amber LCD, blunt status blocks" },
+  { id: "matrix-green", name: "Matrix Green", vibe: "green phosphor, dense pixels" },
+  { id: "blackberry-9900", name: "BlackBerry 9900", vibe: "black chrome, blue select bars" },
+  { id: "hp-jornada", name: "HP Jornada", vibe: "Pocket PC navy and silver" },
+  { id: "palm-pilot", name: "Palm Pilot", vibe: "gray-green mono organizer" },
+  { id: "palm-treo", name: "Palm Treo", vibe: "warm gray, red accent" },
+  { id: "nextel-direct-connect", name: "Direct Connect", vibe: "black + yellow PTT channel" },
+  { id: "amber-terminal", name: "Amber Terminal", vibe: "amber phosphor, hard borders" },
+  { id: "tokyo-night", name: "Tokyo Night", vibe: "indigo, cyan, violet" },
+  { id: "hakctel-cyberdeck", name: "hakcTEL Cyberdeck", vibe: "plum, cyan, near-black" }
+];
+
 const STEPS = [
   'Connecting......................',
   'Chip is ESP32-S3 (QFN56).......',
@@ -446,6 +457,7 @@ class Component extends DCLogic {
     sdNote: 'CATALOG MODE. CONNECT CARD TO INSTALL/ACTIVATE.',
     status: 'Done',
     visits: 41276,
+    themeQuery: '',
     gbName: '',
     gbMsg: '',
     entries: [
@@ -538,6 +550,27 @@ class Component extends DCLogic {
 
       digits: String(this.state.visits).padStart(6, '0').split(''),
 
+      themeQuery: this.state.themeQuery,
+      onThemeSearch: (ev) => this.setState({ themeQuery: ev.target.value }),
+      themeRows: (() => {
+        const q = this.state.themeQuery.trim().toLowerCase();
+        const hits = q
+          ? THEME_ROWS.filter(r => (r.id + ' ' + r.name + ' ' + r.vibe).toLowerCase().includes(q))
+          : THEME_ROWS;
+        return hits.map((r, i) => ({
+          ...r,
+          stripe: i % 2 === 0 ? '#e8ffe8' : '#fff',
+          href: '/themes/' + r.id + '/theme.ini',
+          dl: r.id + '-theme.ini'
+        }));
+      })(),
+      themeCount: (() => {
+        const q = this.state.themeQuery.trim().toLowerCase();
+        const n = q
+          ? THEME_ROWS.filter(r => (r.id + ' ' + r.name + ' ' + r.vibe).toLowerCase().includes(q)).length
+          : THEME_ROWS.length;
+        return n + '/' + THEME_ROWS.length + ' PACKZ';
+      })(),
       gbName: this.state.gbName,
       gbMsg: this.state.gbMsg,
       onName: (ev) => this.setState({ gbName: ev.target.value }),

@@ -5,12 +5,16 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import tempfile
 import urllib.parse
 import urllib.request
 from pathlib import Path
 
-DEFAULT_CATALOG = "https://hakctel.hakc.ai/themes/catalog.json"
+DEFAULT_CATALOG = "https://hakctel.hakc.codes/themes/catalog.json"
+# Mirrors tools/theme_tool.py ID_RE and the firmware's safeThemeId(). The id is taken from a
+# remote catalog and used as a path segment, so it must be validated before it touches the card.
+ID_RE = re.compile(r"[a-z0-9][a-z0-9-]{0,30}[a-z0-9]$")
 MAX_CATALOG_BYTES = 256 * 1024
 MAX_THEME_BYTES = 8192
 
@@ -28,6 +32,8 @@ def download(url: str, limit: int) -> bytes:
 
 
 def install(sd_root: Path, theme_id: str, catalog_url: str) -> Path:
+    if not ID_RE.fullmatch(theme_id):
+        raise ValueError(f"invalid theme id: {theme_id}")
     if not sd_root.is_dir():
         raise ValueError("SD root does not exist or is not a directory")
     catalog = json.loads(download(catalog_url, MAX_CATALOG_BYTES))

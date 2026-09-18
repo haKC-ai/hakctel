@@ -30,6 +30,7 @@ char bootSound[kRtttlLimit + 1] = {};
 char messageSound[kRtttlLimit + 1] = {};
 bool pttMode = false;
 unsigned int pttLimitSeconds = 20;
+bool gridLayout = false;
 bool loaded = false;
 
 uint16_t rgb565(const char *value)
@@ -193,6 +194,8 @@ bool parseTheme(File &file)
             copyValue(messageSound, sizeof(messageSound), value);
         else if (key == "ui.mode")
             pttMode = value == "ptt";
+        else if (key == "ui.layout")
+            gridLayout = value == "timeport-grid";
         else if (key == "ptt.max_seconds") {
             const long seconds = value.toInt();
             if (seconds >= 5 && seconds <= 60)
@@ -271,6 +274,11 @@ bool pttEnabled()
 unsigned int pttMaxSeconds()
 {
     return pttLimitSeconds;
+}
+
+bool timeportLayout()
+{
+    return loaded && gridLayout;
 }
 
 const char *notificationRtttl()

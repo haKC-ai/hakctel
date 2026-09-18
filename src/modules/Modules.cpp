@@ -18,6 +18,9 @@
 #endif
 #if !MESHTASTIC_EXCLUDE_CANNEDMESSAGES
 #include "modules/CannedMessageModule.h"
+#ifdef HAKCTEL_FIRMWARE
+#include "hakctel/HakcTelDesktop.h"
+#endif
 #endif
 #if HAS_SCREEN && BASEUI_HAS_GAMES
 #include "modules/games/GamesModule.h"
@@ -293,6 +296,9 @@ void setupModules()
     // actually present.
 #ifdef OPTIONAL_MODULES_SETUP
     OPTIONAL_MODULES_SETUP();
+#endif
+#ifdef HAKCTEL_FIRMWARE
+    hakctel::hakcTelDesktopModule = new hakctel::HakcTelDesktopModule();
 #endif
     // NOTE! This module must be added LAST because it likes to check for replies from other modules and avoid sending extra
     // acks

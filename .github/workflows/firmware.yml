@@ -22,6 +22,11 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
+      # Install SCons from the registry before the platform can pull its own copy. The
+      # pioarduino zip ships a tools.json that sends the platform's install_tool() down
+      # _install_with_idf_tools(), which deletes packages/tool-scons mid-build and breaks
+      # linking with "No module named 'SCons.Tool.FortranCommon'".
+      - run: pio pkg install -g -t "platformio/tool-scons@~4.40801.0"
       - run: python -m unittest tools/test_theme_tool.py
       - run: ./scripts/package_release.sh
       - uses: actions/upload-artifact@v4

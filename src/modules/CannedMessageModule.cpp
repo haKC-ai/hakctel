@@ -156,8 +156,10 @@ int CannedMessageModule::splitConfiguredMessages()
 
     String canned_messages = cannedMessageModuleConfig.messages;
 
-    // Copy all message parts into the buffer
-    strncpy(this->messageBuffer, canned_messages.c_str(), sizeof(this->messageBuffer));
+    // Copy all message parts into the buffer. strncpy does not terminate when the source
+    // fills the destination, and strlen() below would then read past the end.
+    strncpy(this->messageBuffer, canned_messages.c_str(), sizeof(this->messageBuffer) - 1);
+    this->messageBuffer[sizeof(this->messageBuffer) - 1] = '\0';
 
     // Temporary array to allow for insertion
     const char *tempMessages[CANNED_MESSAGE_MODULE_MESSAGE_MAX_COUNT + 3] = {0};
@@ -173,19 +175,24 @@ int CannedMessageModule::splitConfiguredMessages()
     }
 #endif
 
-    // First message always starts at buffer start
-    tempMessages[tempCount++] = this->messageBuffer;
-    int upTo = strlen(this->messageBuffer) - 1;
+    // Only offer configured messages. With no /prefs/cannedConf.proto the buffer is empty,
+    // and inserting it unconditionally put a blank row in the list that sends an empty text
+    // packet to the broadcast address when selected.
+    if (this->messageBuffer[0] != '\0') {
+        // First message always starts at buffer start
+        tempMessages[tempCount++] = this->messageBuffer;
+        int upTo = strlen(this->messageBuffer) - 1;
 
-    // Walk buffer, splitting on '|'
-    while (i < upTo) {
-        if (this->messageBuffer[i] == '|') {
-            this->messageBuffer[i] = '\0'; // End previous message
-            if (tempCount >= CANNED_MESSAGE_MODULE_MESSAGE_MAX_COUNT - 1)
-                break;
-            tempMessages[tempCount++] = (this->messageBuffer + i + 1);
+        // Walk buffer, splitting on '|'
+        while (i < upTo) {
+            if (this->messageBuffer[i] == '|') {
+                this->messageBuffer[i] = '\0'; // End previous message
+                if (tempCount >= CANNED_MESSAGE_MODULE_MESSAGE_MAX_COUNT - 1)
+                    break;
+                tempMessages[tempCount++] = (this->messageBuffer + i + 1);
+            }
+            i += 1;
         }
-        i += 1;
     }
 
     // Add [Exit] as the last entry

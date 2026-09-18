@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d0f">
+  <meta name="description" content="Install hakcTEL retro pager firmware and browse theme packs.">
+  <title>hakcTEL firmware</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="/">hakcTEL</a>
+    <nav><a href="#install">Install</a><a href="#themes">Themes</a><a href="https://github.com/haKC-ai/hakctel">GitHub</a></nav>
+  </header>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">MESH PAGER SYSTEM 01</p>
+      <h1>The two-way pager future we were promised.</h1>
+      <p>Meshtastic messaging with SD card themes, dot-matrix style, sound packs, short-burst Codec2 PTT, and a capability-gated field toolkit for the LILYGO T-LoRa Pager.</p>
+      <div class="status"><span>ESP32-S3</span><span>480 x 222</span><span>MICROSD</span><span>WEB SERIAL</span></div>
+    </section>
+
+    <section id="install" class="panel install">
+      <div>
+        <p class="eyebrow">FIRMWARE LOAD</p>
+        <h2>Flash from this browser</h2>
+        <p>Use desktop Chrome or Edge over HTTPS. Disconnect other serial tools, connect the Pager by USB, then select Install.</p>
+        <p class="warning">Confirm that your board is a T-LoRa Pager. A new install erases its current firmware and settings.</p>
+      </div>
+      <div class="install-button">
+        <esp-web-install-button manifest="/manifest.json">
+          <button slot="activate">INSTALL HAKCTEL</button>
+          <span slot="unsupported">Web Serial is not available in this browser.</span>
+        </esp-web-install-button>
+      </div>
+    </section>
+
+    <section id="themes">
+      <div class="section-heading">
+        <div><p class="eyebrow">SD THEME ARCHIVE</p><h2>Browse, install, and update themes</h2></div>
+        <p>Connect a mounted microSD card to manage themes in place, or download any pack for a manual install.</p>
+      </div>
+      <div class="theme-manager panel">
+        <label class="theme-search">
+          <span>SEARCH CATALOG</span>
+          <input id="theme-search" type="search" placeholder="PageWriter, Palm, terminal..." autocomplete="off">
+        </label>
+        <div class="manager-actions">
+          <button id="connect-sd" type="button">CONNECT SD CARD</button>
+          <button id="update-all" class="secondary" type="button" disabled>UPDATE INSTALLED</button>
+        </div>
+        <p id="manager-status" class="manager-status" role="status" aria-live="polite">Catalog mode. Connect the card for install, update, and activate controls.</p>
+      </div>
+      <div id="theme-grid" class="theme-grid" aria-live="polite"><p>Loading theme catalog...</p></div>
+    </section>
+  </main>
+  <footer><span>hakcTEL is an independent open-source project.</span><span>Transmit only where authorized.</span></footer>
+</body>
+</html>

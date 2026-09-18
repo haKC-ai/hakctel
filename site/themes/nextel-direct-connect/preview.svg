@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="222" viewBox="0 0 480 222"><defs><pattern id="dots" width="4" height="4" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.55" fill="#000000"/></pattern></defs><g transform="translate(0 0)">
+<rect width="480" height="222" rx="18" fill="#171717" stroke="#FFD21F" stroke-width="3"/><rect x="20" y="16" width="440" height="190" fill="#0C0D0F"/>
+<rect x="31" y="27" width="418" height="35" fill="none" stroke="#FFD21F" stroke-width="3"/><text x="43" y="51" fill="#FFD21F" font-family="monospace" font-size="21" font-weight="900">DIRECT CONNECT</text><text x="436" y="49" fill="#FFF5D6" text-anchor="end" font-family="monospace" font-size="13">CH 01</text>
+<text x="43" y="88" fill="#FFF5D6" font-family="monospace" font-size="13">TALKGROUP</text><text x="43" y="123" fill="#FFD21F" font-family="monospace" font-size="34" font-weight="900">SECKC OPS</text>
+<rect x="31" y="142" width="418" height="51" fill="#FFD21F"/><text x="240" y="174" fill="#0C0D0F" text-anchor="middle" font-family="monospace" font-size="20" font-weight="900">HOLD SPACE TO TALK</text>
+</g></svg>

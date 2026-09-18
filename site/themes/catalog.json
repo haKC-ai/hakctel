@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "themes": [
+    {
+      "id": "advisor-gold",
+      "name": "Advisor Gold",
+      "description": "Amber numeric pager blocks with a deep brown background.",
+      "sha256": "37712377df21a48f002c16c0841d2bd57b09f09bf3725e8b4a95535423b23a3b",
+      "theme": "/themes/advisor-gold/theme.ini",
+      "preview": "/themes/advisor-gold/preview.svg"
+    },
+    {
+      "id": "amber-terminal",
+      "name": "Amber Terminal",
+      "description": "Portable serial terminal with amber phosphor and hard borders.",
+      "sha256": "92b95ed928fe8f983bdbce4772a53be37546b372abb8ab9d2f57696442c04f0d",
+      "theme": "/themes/amber-terminal/theme.ini",
+      "preview": "/themes/amber-terminal/preview.svg"
+    },
+    {
+      "id": "blackberry-9900",
+      "name": "BlackBerry 9900",
+      "description": "Black chrome communicator with blue focus bars.",
+      "sha256": "8cc0a0c49464a3fa7f8a9253a7e805f59b79ab07329a1578a48692daf08695c5",
+      "theme": "/themes/blackberry-9900/theme.ini",
+      "preview": "/themes/blackberry-9900/preview.svg"
+    },
+    {
+      "id": "hakctel-cyberdeck",
+      "name": "hakcTEL Cyberdeck",
+      "description": "Original plum and cyan interface for the modern mesh deck.",
+      "sha256": "448e3b5c1d0e34c8b12aa4038643ffa0a56156dca37d674dcdcb973a8334b20c",
+      "theme": "/themes/hakctel-cyberdeck/theme.ini",
+      "preview": "/themes/hakctel-cyberdeck/preview.svg"
+    },
+    {
+      "id": "hp-jornada",
+      "name": "HP Jornada",
+      "description": "Pocket PC silver, navy title bars, and compact desktop controls.",
+      "sha256": "53e6121451ad2037720cb3234bc5db181fa452f0274889d6c8f9c586cb74a909",
+      "theme": "/themes/hp-jornada/theme.ini",
+      "preview": "/themes/hp-jornada/preview.svg"
+    },
+    {
+      "id": "matrix-green",
+      "name": "Matrix Green",
+      "description": "Dense green dot-matrix terminal with phosphor bloom.",
+      "sha256": "e963c70e65fe64f3f6ea5538497be3f9cdee1691472c48874d1b2e781dbf098f",
+      "theme": "/themes/matrix-green/theme.ini",
+      "preview": "/themes/matrix-green/preview.svg"
+    },
+    {
+      "id": "nextel-direct-connect",
+      "name": "Nextel Direct Connect",
+      "description": "Black and yellow hold-to-talk interface for Codec2 group voice.",
+      "sha256": "e21f90675e337b39c26cca477ac438ff5077c8d9a405efaa1af75e7c60027992",
+      "theme": "/themes/nextel-direct-connect/theme.ini",
+      "preview": "/themes/nextel-direct-connect/preview.svg"
+    },
+    {
+      "id": "pagewriter-2000x",
+      "name": "PageWriter 2000X",
+      "description": "Timeport-era two-way pager desktop with segmented status boxes and a 1-bit application grid.",
+      "sha256": "a7b1a834f24a1b5777afe36c6be3c3fd9d2e2a779cead0020d2134d8d633e204",
+      "theme": "/themes/pagewriter-2000x/theme.ini",
+      "preview": "/themes/pagewriter-2000x/preview.svg"
+    },
+    {
+      "id": "palm-pilot",
+      "name": "Palm Pilot",
+      "description": "Gray-green organizer display with simple monochrome controls.",
+      "sha256": "dff10d8aaebb2cae7502149e01d0f707b8e79ea03414fea4bc4b4639d8762cf0",
+      "theme": "/themes/palm-pilot/theme.ini",
+      "preview": "/themes/palm-pilot/preview.svg"
+    },
+    {
+      "id": "palm-treo",
+      "name": "Palm Treo",
+      "description": "Warm organizer palette with blue headers and red phone accents.",
+      "sha256": "a06377836f72d46f3c952e3800fc9df5d52f24b62f37fdcb5301f2d783344ad2",
+      "theme": "/themes/palm-treo/theme.ini",
+      "preview": "/themes/palm-treo/preview.svg"
+    },
+    {
+      "id": "tokyo-night",
+      "name": "Tokyo Night",
+      "description": "Indigo terminal with cyan status and violet focus.",
+      "sha256": "4af2c73ac594a3560fd53ed8e5109723173aa12bb90093dfa0c1d7ae2e339a26",
+      "theme": "/themes/tokyo-night/theme.ini",
+      "preview": "/themes/tokyo-night/preview.svg"
+    }
+  ]
+}

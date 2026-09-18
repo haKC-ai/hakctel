@@ -1,0 +1,25 @@
+name: Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", "themes/**", "tools/theme_tool.py", "wrangler.toml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python tools/theme_tool.py catalog --output site/themes/catalog.json
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=hakctel --branch=main

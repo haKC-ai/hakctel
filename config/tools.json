@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "policy": "Passive tools are default. Transmit tools require an explicit confirmation and valid region settings.",
+  "tools": [
+    {"id": "lora-survey", "status": "planned", "hardware": "onboard LoRa", "mode": "receive"},
+    {"id": "wifi-survey", "status": "planned", "hardware": "ESP32-S3", "mode": "passive"},
+    {"id": "ble-inventory", "status": "planned", "hardware": "ESP32-S3", "mode": "passive"},
+    {"id": "gps-logger", "status": "planned", "hardware": "GNSS and microSD", "mode": "local"},
+    {"id": "nfc-inspector", "status": "planned", "hardware": "ST25R3916", "mode": "read"},
+    {"id": "i2c-explorer", "status": "planned", "hardware": "I2C bus", "mode": "local"},
+    {"id": "nrf24-diagnostics", "status": "planned", "hardware": "external nRF24L01 PA", "mode": "receive"},
+    {"id": "edge-actions", "status": "experimental", "hardware": "BHI260AP and ESP32-S3", "mode": "local"},
+    {"id": "tone-lab", "status": "planned", "hardware": "keyboard and ES8311", "mode": "local"}
+  ]
+}

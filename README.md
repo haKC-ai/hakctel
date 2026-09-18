@@ -56,6 +56,12 @@ source .venv-hakctel/bin/activate
 
 The build output is copied to `dist/`. For a browser install, deploy `site/` to Cloudflare Pages and publish the generated release artifacts described in [`docs/web-installer.md`](docs/web-installer.md).
 
+Prepare the microSD card before flashing, so the Pager boots into a theme rather than the stock palette:
+
+```bash
+./scripts/prep_sd.sh /media/SDCARD
+```
+
 ## SD card layout
 
 ```text
@@ -71,7 +77,15 @@ The build output is copied to `dist/`. For a browser install, deploy `site/` to 
     ...
 ```
 
-Copy the repository `themes/` directory to `/hakctel/themes/` on a FAT32 microSD card. Put one theme ID in `/hakctel/active-theme.txt`. Theme files are data only and cannot load native code.
+Prepare the card before you flash. The firmware reads its theme from the card, not from flash, so a freshly flashed Pager with a bare card logs `no theme on card` and stays on the stock palette.
+
+```bash
+./scripts/prep_sd.sh /media/SDCARD
+```
+
+It creates `/hakctel/themes/`, copies all 11 packs, keeps any `active-theme.txt` you already have, and tells you when the card is ready to flash. It only writes inside `/hakctel/` and deletes nothing. Run it with `-y` to skip the confirmation. The script also works on its own, without a checkout, by cloning this repository for you.
+
+To do it by hand instead: copy the repository `themes/` directory to `/hakctel/themes/` on a FAT32 microSD card. Put one theme ID in `/hakctel/active-theme.txt`, or leave that file out and the firmware boots PageWriter 2000X. Theme files are data only and cannot load native code.
 
 To pull a verified pack from the hosted theme repository onto a mounted card:
 

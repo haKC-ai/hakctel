@@ -1,8 +1,13 @@
 name: Firmware
 
 on:
+  # Not on every push to main. The pinned pioarduino platform self-upgrades the PlatformIO
+  # core mid-build ("Please wait while upgrading PlatformIO..."), and the resulting
+  # update_core_packages() reinstalls tool-scons 4.41101.0 over the 4.40801.0 the platform
+  # validates against, which deletes the package and fails linking with
+  # "ModuleNotFoundError: No module named 'SCons.Tool.FortranCommon'". Until that is fixed
+  # upstream this job burns ~9 minutes per push to fail, so it runs on tags and on demand.
   push:
-    branches: [main]
     tags: ["v*"]
   pull_request:
   workflow_dispatch:

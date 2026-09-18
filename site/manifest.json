@@ -7,10 +7,22 @@
     {
       "chipFamily": "ESP32-S3",
       "parts": [
-        {"path": "https://github.com/haKC-ai/hakctel/releases/latest/download/hakctel-bootloader.bin", "offset": 0},
-        {"path": "https://github.com/haKC-ai/hakctel/releases/latest/download/hakctel-partitions.bin", "offset": 32768},
-        {"path": "https://github.com/haKC-ai/hakctel/releases/latest/download/hakctel-boot-app0.bin", "offset": 57344},
-        {"path": "https://github.com/haKC-ai/hakctel/releases/latest/download/hakctel-firmware.bin", "offset": 65536}
+        {
+          "path": "/firmware/hakctel-bootloader.bin",
+          "offset": 0
+        },
+        {
+          "path": "/firmware/hakctel-partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "/firmware/hakctel-boot-app0.bin",
+          "offset": 57344
+        },
+        {
+          "path": "/firmware/hakctel-firmware.bin",
+          "offset": 65536
+        }
       ]
     }
   ]

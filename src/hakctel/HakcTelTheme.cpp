@@ -231,10 +231,14 @@ bool loadTheme()
 
     const String path = "/hakctel/themes/" + id + "/theme.ini";
     File file = SD.open(path, FILE_READ);
-    if (!file || file.size() == 0 || file.size() > kThemeFileLimit) {
-        if (file)
-            file.close();
-        LOG_WARN("hakcTEL: theme missing or too large: %s", path.c_str());
+    if (!file) {
+        LOG_WARN("hakcTEL: no theme on card at %s -- copy the repo themes/ to /hakctel/themes/", path.c_str());
+        return false;
+    }
+    const size_t size = file.size();
+    if (size == 0 || size > kThemeFileLimit) {
+        file.close();
+        LOG_WARN("hakcTEL: theme %s is %u bytes, limit is %u", path.c_str(), (unsigned)size, (unsigned)kThemeFileLimit);
         return false;
     }
     loaded = parseTheme(file);
